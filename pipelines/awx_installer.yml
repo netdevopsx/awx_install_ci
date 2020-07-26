@@ -1,0 +1,45 @@
+groups:
+- name: awx-installer
+  jobs:
+    - build-awx-installer
+
+jobs:
+- name: build-awx-installer
+  public: true
+  serial: true
+  plan:
+  - in_parallel:
+      fail_fast: true
+      steps:
+      - get: awx_install_ci
+      - get: builder
+  - task: build
+    output_mapping: {image: image_awx_installer}
+    image: builder
+    privileged: true
+    params:
+      DOCKERFILE: awx_install_ci/dockerfiles/awx_installer/Dockerfile
+    file: awx_install_ci/tasks/build-awx-installer-image.yml
+  - put: awx-installer-image
+    params: {image: image_awx_installer/image.tar}
+    get_params: {format: oci}
+resources:
+- name: awx_install_ci
+  type: git
+  icon: &image-icon git-icon
+  source:
+    uri: https://github.com/netdevopsx/awx_install_ci.git
+    branch: master
+    
+- name: awx-installer-image
+  type: registry-image
+  icon: &image-icon docker
+  source:
+    repository: netdevopsx/awx_installer
+    username: ((docker.username))
+    password: ((docker.password))
+
+- name: builder
+  type: registry-image
+  icon: *image-icon
+  source: {repository: ubuntu, tag: 18.04}
