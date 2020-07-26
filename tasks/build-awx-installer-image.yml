@@ -1,13 +1,10 @@
 ---
 platform: linux
 
-image_resource:
-  type: registry-image
-  source: {repository: concourse/builder}
-
 params:
-  REPOSITORY:
-  DOCKERFILE:
+  REPOSITORY: netdevopsx/awx_installer
+  DOCKERFILE: awx_install_ci/dockerfiles/awx_installer/Dockerfile
+  CONTEXT: .
 
 inputs:
 - name: awx_install_ci
@@ -15,4 +12,8 @@ inputs:
 outputs:
 - name: image
 
-run: {path: build}
+caches:
+- path: cache
+
+run:
+  path: build

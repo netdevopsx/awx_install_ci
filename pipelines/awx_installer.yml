@@ -12,17 +12,13 @@ jobs:
       fail_fast: true
       steps:
       - get: awx_install_ci
-      - get: builder
+      - get: oci-build-task
   - task: build
-    output_mapping: {image: image_awx_installer}
-    image: builder
+    image: oci-build-task
     privileged: true
-    params:
-      DOCKERFILE: awx_install_ci/dockerfiles/awx_installer/Dockerfile
     file: awx_install_ci/tasks/build-awx-installer-image.yml
   - put: awx-installer-image
-    params: {image: image_awx_installer/image.tar}
-    get_params: {format: oci}
+    params: {image: image/image.tar}
 resources:
 - name: awx_install_ci
   type: git
@@ -39,7 +35,7 @@ resources:
     username: ((docker.username))
     password: ((docker.password))
 
-- name: builder
+- name: oci-build-task
   type: registry-image
   icon: *image-icon
-  source: {repository: ubuntu, tag: 18.04}
+  source: {repository: vito/oci-build-task}
