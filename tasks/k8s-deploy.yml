@@ -11,6 +11,8 @@ params:
 
 inputs:
 - name: awx_install_ci
+- name: awx-config
+
 
 run:
   path: awx_install_ci/tasks/scripts/k8s-deploy
