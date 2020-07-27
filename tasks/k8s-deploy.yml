@@ -10,7 +10,7 @@ params:
   ENV:
 
 inputs:
-- name: awx_install_ci
+- name: awx-install-ci
 - name: awx-config
 
 
