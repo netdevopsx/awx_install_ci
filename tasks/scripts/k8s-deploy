@@ -37,7 +37,6 @@ run_awx_deploy() {
         kubectl create ns $ENV
   fi
   kubectl config set-context --current --namespace $ENV
-  helm init --client-only
   cd $WORKSPACE_DIR
   git clone -b $AWX_RELEASE https://github.com/ansible/awx.git
   cd awx/installer
