@@ -26,9 +26,8 @@ eventually_populate_kube_config() {
 
 run_awx_deploy() {
   local chart=./concourse-chart
-  kubectl get all -A
   export WORKSPACE_DIR="$(pwd)"
-  export AWX_RELEASE=$(yq -r .all.hosts.localhost.awx_release $WORKSPACE_DIR/awx_install_ci.git/custom_config.yml)
+  export AWX_RELEASE=$(yq -r .all.hosts.localhost.awx_release $WORKSPACE_DIR/awx-config/awx_config.yml)
   echo "Check namespace"
   if ! kubectl get ns $ENV
     then 
@@ -42,7 +41,7 @@ run_awx_deploy() {
   cd $WORKSPACE_DIR
   git clone -b $AWX_RELEASE https://github.com/ansible/awx.git
   cd awx/installer
-  ansible-playbook -i inventory -i $WORKSPACE_DIR/ci_awx_config.git/extra-vars.yml install.yml
+  ansible-playbook -i inventory -i $WORKSPACE_DIR/awx-config/awx_config.yml install.yml
 
 }
 
