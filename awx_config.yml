@@ -5,8 +5,9 @@ all:
       awx_release: "13.0.0"
       kubernetes_deployment_name: "{{ lookup('env','ENV') }}"
       kubernetes_namespace: "{{ lookup('env','ENV') }}"
-      dockerhub_version:    "{{ 13.0.0 }}"
+      dockerhub_version:    "13.0.0"
+      kubernetes_awx_image: "ansible/awx"
       ansible_python_interpreter: "/usr/bin/env python3"
       kubernetes_ingress_hostname: "{{ lookup('env','ENV') }}.netdevopsx.com"
       kubernetes_ingress_annotations:
-      kubernetes.io/ingress.class:  "nginx"
+        kubernetes.io/ingress.class:  "nginx"
