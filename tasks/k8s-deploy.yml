@@ -1,0 +1,16 @@
+---
+platform: linux
+
+image_resource:
+  type: registry-image
+  source: {repository: netdevopsx/awx_installer}
+
+params:
+  KUBE_CONFIG:
+  ENV:
+
+inputs:
+- name: awx_install_ci
+
+run:
+  path: awx_install_ci/tasks/scripts/k8s-deploy

@@ -22,7 +22,7 @@ jobs:
 resources:
 - name: awx_install_ci
   type: git
-  icon: &image-icon git-icon
+  icon: &image-icon github
   source:
     uri: https://github.com/netdevopsx/awx_install_ci.git
     branch: master

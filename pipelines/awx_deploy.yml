@@ -1,0 +1,34 @@
+groups:
+- name: awx-deploy
+  jobs:
+    - awx-prod
+
+jobs:
+- name: awx-prod
+  public: true
+  serial: true
+  plan:
+  - in_parallel:
+      fail_fast: true
+      steps:
+      - get: awx_install_ci
+      - get: awx-installer-image
+  - task: deploy
+    image: awx-installer-image
+    input_mapping: {image-info: awx_config}
+    file: awx_install_ci/tasks/k8s-deploy.yml
+    params:
+      KUBE_CONFIG: ((kube-config))
+      ENV: "awx-prod"
+resources:
+- name: awx_install_ci
+  type: git
+  icon: &image-icon github
+  source:
+    uri: https://github.com/netdevopsx/awx_install_ci.git
+    branch: master
+
+- name: awx-installer-image
+  type: registry-image
+  icon: &image-icon docker
+  source: {repository: netdevopsx/awx_installer}
