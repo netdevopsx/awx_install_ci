@@ -13,6 +13,6 @@ RUN apt-get -y install python3-pip kubectl=1.17.7-00 helm=3.2.4-1 git jq && \
 
 RUN pip3 install \
     ansible==2.9.6 \
-    yq \
-    requests \
-    docker
+    kubernetes \
+    openshift \
+    yq
