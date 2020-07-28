@@ -20,6 +20,7 @@ jobs:
     file: awx-install-ci/tasks/k8s-deploy.yml
     params:
       KUBE_CONFIG: ((kube-config))
+      INGRESS_HOSTNAME: "awx.netdevopsx.com"
       ENV: "awx-prod"
 resources:
 - name: awx-install-ci
