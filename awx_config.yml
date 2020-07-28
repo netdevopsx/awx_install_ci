@@ -3,7 +3,7 @@ all:
   hosts:
     localhost:
       awx_release: "13.0.0"
-      kubernetes_deployment_name: "{{ lookup('env','ENV') }}"
+      kubernetes_deployment_name: "{{ lookup('env','ENV')  }}"
       kubernetes_context: "kubernetes-admin@cluster.local"
       kubernetes_namespace: "{{ lookup('env','ENV') }}"
       dockerhub_version:    "13.0.0"
