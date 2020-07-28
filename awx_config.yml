@@ -11,4 +11,5 @@ all:
       ansible_python_interpreter: "/usr/bin/env python3"
       kubernetes_ingress_hostname: "{{ lookup('env','INGRESS_HOSTNAME') }}"
       kubernetes_ingress_annotations:
-        kubernetes.io/ingress.class:  "nginx"
+        kubernetes.io/ingress.class: "nginx"
+        cert-manager.io/cluster-issuer: "letsencrypt-prod"
