@@ -6,11 +6,11 @@ fly --target netdevopsx login --team-name main \
 
 fly -t netdevopsx set-pipeline \
     --pipeline awx_installer \
-    --config pipelines/awx_installer.yml
+    --config pipelines/awx_deploy.yml
 
 fly -t netdevopsx set-pipeline \
-    --pipeline awx_deploy \
-    --config pipelines/awx_deploy.yml
+    --pipeline concourse_images \
+    --config pipelines/concourse_images.yml
 
 # Create kube_config
 cd ~/.kube

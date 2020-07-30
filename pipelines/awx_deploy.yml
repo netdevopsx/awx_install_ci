@@ -13,10 +13,10 @@ jobs:
       fail_fast: true
       steps:
       - get: awx-install-ci
-      - get: awx-installer-image
+      - get: concourse_kubernetes_image
       - get: awx-config-prod
   - task: install
-    image: awx-installer-image
+    image: concourse_kubernetes_image
     input_mapping: {awx-config: awx-config-prod}
     file: awx-install-ci/tasks/awx-install.yml
     params:
@@ -33,11 +33,11 @@ jobs:
       steps:
       - get: awx-install-ci
         # passed: [awx-prod-install]
-      - get: awx-installer-image
+      - get: concourse_ansible_image
       - get: inv-awx-prod
       - get: pb_awx_provision
   - task: provision
-    image: awx-installer-image
+    image: concourse_ansible_image
     input_mapping: {inv-awx: inv-awx-prod}
     file: awx-install-ci/tasks/awx-provision.yml
     params:
@@ -74,7 +74,12 @@ resources:
     uri: https://github.com/netdevopsx/pb_awx_provision.git
     branch: master
 
-- name: awx-installer-image
+- name: concourse_kubernetes_image
   type: registry-image
   icon: &image-icon docker
-  source: {repository: netdevopsx/awx_installer}
+  source: {repository: netdevopsx/concourse_kubernetes}
+
+- name: concourse_ansible_image
+  type: registry-image
+  icon: *image-icon
+  source: {repository: netdevopsx/concourse_ansible}

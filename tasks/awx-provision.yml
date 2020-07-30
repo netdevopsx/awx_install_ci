@@ -3,7 +3,7 @@ platform: linux
 
 image_resource:
   type: registry-image
-  source: {repository: netdevopsx/awx_installer}
+  source: {repository: netdevopsx/concourse_ansible_image}
 
 params:
   KUBE_CONFIG:
