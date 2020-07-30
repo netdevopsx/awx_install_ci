@@ -7,4 +7,5 @@ RUN apt-get -y install python3-pip && \
 
 RUN pip3 install \
     ansible==2.9.8 \
-    jmespath
+    jmespath \
+    requests

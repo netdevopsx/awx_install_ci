@@ -5,7 +5,7 @@ fly --target netdevopsx login --team-name main \
     --concourse-url https://ci.netdevopsx.com
 
 fly -t netdevopsx set-pipeline \
-    --pipeline awx_installer \
+    --pipeline awx_deploy \
     --config pipelines/awx_deploy.yml
 
 fly -t netdevopsx set-pipeline \
