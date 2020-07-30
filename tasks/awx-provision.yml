@@ -1,0 +1,18 @@
+---
+platform: linux
+
+image_resource:
+  type: registry-image
+  source: {repository: netdevopsx/awx_installer}
+
+params:
+  KUBE_CONFIG:
+  ENV:
+
+inputs:
+- name: awx-install-ci
+- name: inv-awx
+
+
+run:
+  path: awx-install-ci/tasks/scripts/awx-provision

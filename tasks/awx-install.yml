@@ -15,4 +15,4 @@ inputs:
 
 
 run:
-  path: awx-install-ci/tasks/scripts/k8s-deploy
+  path: awx-install-ci/tasks/scripts/awx-install
