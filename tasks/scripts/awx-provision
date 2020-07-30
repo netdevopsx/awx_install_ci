@@ -10,6 +10,7 @@ main() {
 
 run_awx_provision() {
   export WORKSPACE_DIR="$(pwd)"
+  ansible-galaxy collection install my_namespace.my_collection:$PROVISIONER_VERSION
   ansible-playbook -i $WORKSPACE_DIR/inv-awx --limit $ENV $WORKSPACE_DIR/pb_awx_provision/provision.yml
 
 }
