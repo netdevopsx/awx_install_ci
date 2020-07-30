@@ -44,6 +44,7 @@ jobs:
       KUBE_CONFIG: ((kube-config))
       INGRESS_HOSTNAME: "awx.netdevopsx.com"
       ENV: "prod"
+      PROVISIONER_VERSION: "1.0.1"
 
 resources:
 - name: awx-install-ci
