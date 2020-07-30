@@ -10,7 +10,7 @@ main() {
 
 run_awx_provision() {
   export WORKSPACE_DIR="$(pwd)"
-  ansible-playbook -i $WORKSPACE_DIR/inv-awx --limit $ENV provision.yml
+  ansible-playbook -i $WORKSPACE_DIR/inv-awx --limit $ENV $WORKSPACE_DIR/pb_awx_provision/provision.yml
 
 }
 

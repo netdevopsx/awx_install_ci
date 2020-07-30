@@ -32,10 +32,10 @@ jobs:
       fail_fast: true
       steps:
       - get: awx-install-ci
-        passed: [awx-prod-install]
+        # passed: [awx-prod-install]
       - get: awx-installer-image
       - get: inv-awx-prod
-        trigger: true
+      - get: pb_awx_provision
   - task: provision
     image: awx-installer-image
     input_mapping: {inv-awx: inv-awx-prod}
@@ -58,15 +58,22 @@ resources:
   icon: *image-icon
   source:
     uri: https://github.com/netdevopsx/awx_install_ci.git
-    branch: "awx-prod"
+    branch: awx-prod
 
 - name: inv-awx-prod
   type: git
   icon: *image-icon
   source:
     uri: https://github.com/netdevopsx/inv_awx.git
-    branch: "master"
-    
+    branch: master
+
+- name: pb_awx_provision
+  type: git
+  icon: *image-icon
+  source:
+    uri: https://github.com/netdevopsx/pb_awx_provision.git
+    branch: master
+
 - name: awx-installer-image
   type: registry-image
   icon: &image-icon docker
