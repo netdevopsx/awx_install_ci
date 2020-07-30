@@ -22,7 +22,7 @@ jobs:
     params:
       KUBE_CONFIG: ((kube-config))
       INGRESS_HOSTNAME: "awx.netdevopsx.com"
-      ENV: "awx-prod"
+      ENV: "prod"
 
 - name: awx-prod-provision
   public: true
@@ -43,7 +43,7 @@ jobs:
     params:
       KUBE_CONFIG: ((kube-config))
       INGRESS_HOSTNAME: "awx.netdevopsx.com"
-      ENV: "awx-prod"
+      ENV: "prod"
 
 resources:
 - name: awx-install-ci

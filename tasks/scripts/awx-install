@@ -29,14 +29,14 @@ run_awx_deploy() {
   export WORKSPACE_DIR="$(pwd)"
   export AWX_RELEASE=$(yq -r .all.hosts.localhost.awx_release $WORKSPACE_DIR/awx-config/awx_config.yml)
   echo "Check namespace"
-  if ! kubectl get ns $ENV
+  if ! kubectl get ns awx-$ENV
     then 
-        kubectl create ns $ENV
+        kubectl create ns awx-$ENV
     else
-        kubectl delete ns $ENV
-        kubectl create ns $ENV
+        kubectl delete ns awx-$ENV
+        kubectl create ns awx-$ENV
   fi
-  kubectl config set-context --current --namespace $ENV
+  kubectl config set-context --current --namespace awx-$ENV
   cd $WORKSPACE_DIR
   git clone -b $AWX_RELEASE https://github.com/ansible/awx.git
   cd awx/installer
