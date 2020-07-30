@@ -11,6 +11,7 @@ main() {
 run_awx_provision() {
   export WORKSPACE_DIR="$(pwd)"
   ansible-galaxy collection install -r $WORKSPACE_DIR/pb_awx_provision/collection/requirements.yml
+  export ANSIBLE_HASH_BEHAVIOUR="merge"
   ansible-playbook -i $WORKSPACE_DIR/inv-awx --limit $ENV $WORKSPACE_DIR/pb_awx_provision/provision.yml
 
 }
