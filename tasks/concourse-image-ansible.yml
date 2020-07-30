@@ -2,8 +2,8 @@
 platform: linux
 
 params:
-  REPOSITORY: netdevopsx/awx_installer
-  DOCKERFILE: awx_install_ci/dockerfiles/awx_installer/Dockerfile
+  REPOSITORY: netdevopsx/concourse_ansible
+  DOCKERFILE: awx_install_ci/dockerfiles/concourse_ansible/Dockerfile
   CONTEXT: .
 
 inputs:
