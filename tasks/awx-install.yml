@@ -3,7 +3,7 @@ platform: linux
 
 image_resource:
   type: registry-image
-  source: {repository: netdevopsx/concourse_kubernetes_image}
+  source: {repository: netdevopsx/concourse-kubernetes}
 
 params:
   KUBE_CONFIG:

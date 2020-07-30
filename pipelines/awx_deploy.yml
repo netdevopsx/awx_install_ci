@@ -77,9 +77,9 @@ resources:
 - name: concourse_kubernetes_image
   type: registry-image
   icon: &image-icon docker
-  source: {repository: netdevopsx/concourse_kubernetes}
+  source: {repository: netdevopsx/concourse-kubernetes}
 
 - name: concourse_ansible_image
   type: registry-image
   icon: *image-icon
-  source: {repository: netdevopsx/concourse_ansible}
+  source: {repository: netdevopsx/concourse-ansible}

@@ -3,7 +3,7 @@ platform: linux
 
 image_resource:
   type: registry-image
-  source: {repository: netdevopsx/concourse_ansible_image}
+  source: {repository: netdevopsx/concourse-ansible}
 
 params:
   KUBE_CONFIG:
