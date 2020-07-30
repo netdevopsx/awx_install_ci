@@ -54,12 +54,12 @@ resources:
     password: ((docker.password))
 
 - name: concourse-ansible-image
-    type: registry-image
-    icon: &image-icon docker
-    source:
-      repository: netdevopsx/concourse-ansible
-      username: ((docker.username))
-      password: ((docker.password))
+  type: registry-image
+  icon: &image-icon docker
+  source:
+    repository: netdevopsx/concourse-ansible
+    username: ((docker.username))
+    password: ((docker.password))
 
 - name: oci-build-task
   type: registry-image
