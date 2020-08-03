@@ -1,11 +1,13 @@
 groups:
 - name: awx-deploy
   jobs:
-    - awx-prod-install
-    - awx-prod-provision
+    - awx-green-install
+    - awx-green-provision
+    - awx-blue-install
+    - awx-blue-provision
 
 jobs:
-- name: awx-prod-install
+- name: awx-green-install
   public: true
   serial: true
   plan:
@@ -14,17 +16,17 @@ jobs:
       steps:
       - get: awx-install-ci
       - get: concourse_kubernetes_image
-      - get: awx-config-prod
+      - get: awx-config-green
   - task: install
     image: concourse_kubernetes_image
-    input_mapping: {awx-config: awx-config-prod}
+    input_mapping: {awx-config: awx-config-green}
     file: awx-install-ci/tasks/awx-install.yml
     params:
       KUBE_CONFIG: ((kube-config))
       INGRESS_HOSTNAME: "awx.netdevopsx.com"
-      ENV: "prod"
+      ENV: "green"
 
-- name: awx-prod-provision
+- name: awx-green-provision
   public: true
   serial: true
   plan:
@@ -32,19 +34,59 @@ jobs:
       fail_fast: true
       steps:
       - get: awx-install-ci
-        # passed: [awx-prod-install]
+        passed: [awx-green-install]
       - get: concourse_ansible_image
-      - get: inv-awx-prod
+      - get: inv-awx-green
       - get: pb_awx_provision
   - task: provision
     image: concourse_ansible_image
-    input_mapping: {inv-awx: inv-awx-prod}
+    input_mapping: {inv-awx: inv-awx-green}
     file: awx-install-ci/tasks/awx-provision.yml
     params:
       KUBE_CONFIG: ((kube-config))
       INGRESS_HOSTNAME: "awx.netdevopsx.com"
-      ENV: "prod"
+      ENV: "green"
 
+- name: awx-blue-install
+  public: true
+  serial: true
+  plan:
+  - in_parallel:
+      fail_fast: true
+      steps:
+      - get: awx-install-ci
+      - get: concourse_kubernetes_image
+      - get: awx-config-blue
+  - task: install
+    image: concourse_kubernetes_image
+    input_mapping: {awx-config: awx-config-blue}
+    file: awx-install-ci/tasks/awx-install.yml
+    params:
+      KUBE_CONFIG: ((kube-config))
+      INGRESS_HOSTNAME: "awx.netdevopsx.com"
+      ENV: "blue"
+    
+- name: awx-blue-provision
+  public: true
+  serial: true
+  plan:
+  - in_parallel:
+      fail_fast: true
+      steps:
+      - get: awx-install-ci
+        passed: [awx-blue-install]
+      - get: concourse_ansible_image
+      - get: inv-awx-blue
+      - get: pb_awx_provision
+  - task: provision
+    image: concourse_ansible_image
+    input_mapping: {inv-awx: inv-awx-blue}
+    file: awx-install-ci/tasks/awx-provision.yml
+    params:
+      KUBE_CONFIG: ((kube-config))
+      INGRESS_HOSTNAME: "awx.netdevopsx.com"
+      ENV: "blue"
+    
 resources:
 - name: awx-install-ci
   type: git
@@ -53,19 +95,33 @@ resources:
     uri: https://github.com/netdevopsx/awx_install_ci.git
     branch: master
 
-- name: awx-config-prod
+- name: awx-config-green
   type: git
   icon: *image-icon
   source:
-    uri: https://github.com/netdevopsx/awx_install_ci.git
-    branch: awx-prod
+    uri: https://github.com/netdevopsx/awx_config.git
+    branch: green
 
-- name: inv-awx-prod
+- name: awx-config-blue
+  type: git
+  icon: *image-icon
+  source:
+    uri: https://github.com/netdevopsx/awx_config.git
+    branch: blue
+
+- name: inv-awx-green
   type: git
   icon: *image-icon
   source:
     uri: https://github.com/netdevopsx/inv_awx.git
-    branch: master
+    branch: green
+
+- name: inv-awx-blue
+  type: git
+  icon: *image-icon
+  source:
+    uri: https://github.com/netdevopsx/inv_awx.git
+    branch: blue
 
 - name: pb_awx_provision
   type: git
