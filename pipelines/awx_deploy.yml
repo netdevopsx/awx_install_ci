@@ -23,7 +23,7 @@ jobs:
     file: awx-install-ci/tasks/awx-install.yml
     params:
       KUBE_CONFIG: ((kube-config))
-      INGRESS_HOSTNAME: "awx.netdevopsx.com"
+      INGRESS_HOSTNAME: "awx.green.netdevopsx.com"
       ENV: "green"
 
 - name: awx-green-provision
@@ -44,7 +44,7 @@ jobs:
     file: awx-install-ci/tasks/awx-provision.yml
     params:
       KUBE_CONFIG: ((kube-config))
-      INGRESS_HOSTNAME: "awx.netdevopsx.com"
+      INGRESS_HOSTNAME: "awx.green.netdevopsx.com"
       ENV: "green"
 
 - name: awx-blue-install
@@ -63,7 +63,7 @@ jobs:
     file: awx-install-ci/tasks/awx-install.yml
     params:
       KUBE_CONFIG: ((kube-config))
-      INGRESS_HOSTNAME: "awx.netdevopsx.com"
+      INGRESS_HOSTNAME: "awx.blue.netdevopsx.com"
       ENV: "blue"
     
 - name: awx-blue-provision
@@ -84,7 +84,7 @@ jobs:
     file: awx-install-ci/tasks/awx-provision.yml
     params:
       KUBE_CONFIG: ((kube-config))
-      INGRESS_HOSTNAME: "awx.netdevopsx.com"
+      INGRESS_HOSTNAME: "awx.blue.netdevopsx.com"
       ENV: "blue"
     
 resources:
