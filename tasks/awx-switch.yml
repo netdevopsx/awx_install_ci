@@ -12,7 +12,6 @@ params:
 
 inputs:
 - name: awx-install-ci
-- name: pb_awx_provision
 
 
 run:
