@@ -101,6 +101,7 @@ jobs:
       steps:
       - get: awx-install-ci
       - get: concourse_kubernetes_image
+      - get: pb_awx_provision
   - task: switch
     image: concourse_kubernetes_image
     file: awx-install-ci/tasks/awx-switch.yml
@@ -118,6 +119,7 @@ jobs:
       steps:
       - get: awx-install-ci
       - get: concourse_kubernetes_image
+      - get: pb_awx_provision
   - task: switch
     image: concourse_kubernetes_image
     file: awx-install-ci/tasks/awx-switch.yml
