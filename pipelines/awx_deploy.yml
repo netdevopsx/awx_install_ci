@@ -6,6 +6,11 @@ groups:
     - awx-blue-install
     - awx-blue-provision
 
+- name: awx-switch
+  jobs:
+    - awx-green-production
+    - awx-blue-production
+
 jobs:
 - name: awx-green-install
   public: true
@@ -86,7 +91,41 @@ jobs:
       KUBE_CONFIG: ((kube-config))
       INGRESS_HOSTNAME: "awx.blue.netdevopsx.com"
       ENV: "blue"
-    
+
+- name: awx-green-production
+  public: true
+  serial: true
+  plan:
+  - in_parallel:
+      fail_fast: true
+      steps:
+      - get: awx-install-ci
+      - get: concourse_kubernetes_image
+  - task: switch
+    image: concourse_kubernetes_image
+    file: awx-install-ci/tasks/awx-switch.yml
+    params:
+      KUBE_CONFIG: ((kube-config))
+      PRODUCTION: "green"
+      DOMAIN: "netdevopsx.com"   
+
+- name: awx-blue-production
+  public: true
+  serial: true
+  plan:
+  - in_parallel:
+      fail_fast: true
+      steps:
+      - get: awx-install-ci
+      - get: concourse_kubernetes_image
+  - task: switch
+    image: concourse_kubernetes_image
+    file: awx-install-ci/tasks/awx-switch.yml
+    params:
+      KUBE_CONFIG: ((kube-config))
+      PRODUCTION: "blue"
+      DOMAIN: "netdevopsx.com"   
+
 resources:
 - name: awx-install-ci
   type: git
