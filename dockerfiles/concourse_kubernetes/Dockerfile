@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM debian:stable
 
 RUN apt-get update
 RUN apt-get -y install \
