@@ -12,6 +12,7 @@ RUN curl -s https://helm.baltorepo.com/organization/signing.asc | apt-key add - 
     echo "deb https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable-debian.list
 RUN apt-get update
 RUN apt-get -y install \
+    --no-install-suggests \
     python3-pip \
     python3-setuptools \
     python3-wheel \
