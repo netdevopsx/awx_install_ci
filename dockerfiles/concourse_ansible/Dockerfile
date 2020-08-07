@@ -10,6 +10,6 @@ RUN apt-get -y install \
     rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install \
-    ansible==2.9.8 \
+    ansible==2.9.10 \
     jmespath \
     requests
