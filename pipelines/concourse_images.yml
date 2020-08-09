@@ -1,41 +1,59 @@
 groups:
 - name: awx-installer
   jobs:
+    - patch
     - concourse-kubernetes
     - concourse-ansible
 
 jobs:
+- name: patch
+  public: true
+  serial_groups: [version]
+  plan:
+  - get: version
+    params:
+      bump: patch
+  - params:
+      file: version/version
+    put: version
+
 - name: concourse-kubernetes
   public: true
-  serial: true
+  serial_groups: [version]
   plan:
   - in_parallel:
       fail_fast: true
       steps:
       - get: awx_install_ci
       - get: oci-build-task
+      - get: version
   - task: build
     image: oci-build-task
     privileged: true
     file: awx_install_ci/tasks/concourse-image-kubernetes.yml
   - put: concourse-kubernetes-image
-    params: {image: image/image.tar}
+    params:
+      image: image/image.tar
+      additional_tags: version/version
 
 - name: concourse-ansible
   public: true
-  serial: true
+  serial_groups: [version]
   plan:
   - in_parallel:
       fail_fast: true
       steps:
       - get: awx_install_ci
       - get: oci-build-task
+      - get: version
   - task: build
     image: oci-build-task
     privileged: true
     file: awx_install_ci/tasks/concourse-image-ansible.yml
   - put: concourse-ansible-image
-    params: {image: image/image.tar}
+    params:
+      image: image/image.tar
+      additional_tags: version/version
       
 resources:
 - name: awx_install_ci
@@ -65,3 +83,14 @@ resources:
   type: registry-image
   icon: *image-icon
   source: {repository: vito/oci-build-task}
+
+- name: version
+  type: semver
+  icon: tag
+  source:
+    branch: version
+    driver: git
+    file: version
+    private_key: ((github-version.private_key))
+    uri: git@github.com:netdevopsx/awx_install_ci.git
+    initial_version: 0.0.1
